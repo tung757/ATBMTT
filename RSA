@@ -1,0 +1,109 @@
+#include<iostream>
+using namespace std;
+int gcd(int a, int b)
+{
+	if(a%b==0)
+	{
+		return b;
+	}
+	else
+	{
+		return gcd(b,a%b);
+	}
+}
+int nd(int a, int n)
+{
+	if(gcd(a,n)==1)
+	{
+		int r0=n,r1=a,x0=0,x1=1,y0=1,y1=0,qi;
+		while(r1!=1)
+		{
+			qi=r0/r1;
+			int tg=r1;
+			r1=r0%r1;
+			r0=tg;
+			tg=x1;
+			x1=x0-qi*x1;
+			x0=tg;
+			tg=y1;
+			y1=y0-qi*y1;
+			y0=tg;
+		}
+		while(x1<0)
+		{
+			x1=x1+n;
+		}
+		return x1;
+	}
+	else
+	{
+		return -1;
+	}
+}
+string dtobin(int n)
+{
+	if(n==1)
+	{
+		return "1";
+	}
+	else
+	{
+		if(n%2==0)
+		{
+			return dtobin(n/2)+"0";
+		}
+		else
+		{
+			return dtobin(n/2)+"1";
+		}
+	}
+}
+int gtm(int a, int b, int n)
+{
+	int f=1;
+	string x=dtobin(b);
+	for(int i=0;i<x.length();i++)
+	{
+		f=f*f % n;
+		if(x[i]=='1')
+		{
+			f=f*a % n;
+		}
+	}
+	return f;
+}
+void nhap(int &p, int &q)
+{
+	cout << "Nhap p,q : ";
+	cin >> p;
+	cin >> q;
+}
+void khoa(int p, int q, int e, int &d, int &n)
+{
+	n=p*q;
+	int xn=(p-1)*(q-1);
+	d=nd(e,xn);
+	cout << "Khoa cong khai : ("<<n<<","<<e<<")"<< endl;
+	cout << "Khoa bi mat : ("<<n<<","<<d<<")";
+}
+void mahoa(int e, int M, int n)
+{
+	cout <<"Ma hoa la :"<< gtm(M,e,n);
+}
+void giaima(int d, int m, int n)
+{
+	cout <<"\nGiai ma la :"<< gtm(m,d,n);
+}
+int main()
+{
+	int p,q,d,e,n,M,m;
+	nhap(p,q);
+	cout <<"Nhap e : ";
+	cin >>e;
+	khoa(p,q,e,d,n);
+	cout <<"\nNhap ban ro : ";
+	cin >> M;
+	mahoa(e,M,n);
+	giaima(d,gtm(M,e,n),n);
+	return 0;
+}
