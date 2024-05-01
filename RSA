@@ -1,4 +1,6 @@
 #include<iostream>
+#include<cstdlib>
+#include<ctime>
 using namespace std;
 int gcd(int a, int b)
 {
@@ -78,10 +80,9 @@ void nhap(int &p, int &q)
 	cin >> p;
 	cin >> q;
 }
-void khoa(int p, int q, int e, int &d, int &n)
+void khoa(int p, int q, int e, int &d, int &n, int xn)
 {
 	n=p*q;
-	int xn=(p-1)*(q-1);
 	d=nd(e,xn);
 	cout << "Khoa cong khai : ("<<n<<","<<e<<")"<< endl;
 	cout << "Khoa bi mat : ("<<n<<","<<d<<")";
@@ -94,13 +95,62 @@ void giaima(int d, int m, int n)
 {
 	cout <<"\nGiai ma la :"<< gtm(m,d,n);
 }
+void sinhe(int &e, int &xn, int p, int q)
+{
+	xn=(p-1)*(q-1);
+	do
+	{
+		e=rand() % ((xn-1)-2+1)+2;
+	}
+	while(gcd(e,xn)!=1);
+	cout << "Gia tri cua e la : "<< e<< endl;
+}
+bool snt(int n)
+{
+	bool b= true;
+	if(n<2)
+	{
+		b=false;
+	}
+	else
+	{
+		for(int i=2;i<=n/2;i++)
+		{
+			if(n%i==0)
+			{
+				b=false;
+			}
+		}
+	}
+	return b;
+}
+void sinhpq(int &p, int &q)
+{
+	do
+	{
+		do
+		{
+			p=rand() % (100-1+1)+1;
+		}
+		while(!snt(p));
+		cout << "Gia tri cua p la : "<< p<< endl;
+		do
+		{
+			q=rand() % (100-1+1)+1;
+		}
+		while(!snt(q));
+		cout << "Gia tri cua q la : "<< q<< endl;
+	}
+	while(p==q);
+}
 int main()
 {
-	int p,q,d,e,n,M,m;
-	nhap(p,q);
-	cout <<"Nhap e : ";
-	cin >>e;
-	khoa(p,q,e,d,n);
+	srand(time(NULL));
+	int p,q,d,e,n,M,m,xn;
+//	nhap(p,q);
+	sinhpq(p,q);
+	sinhe(e,xn,p,q);
+	khoa(p,q,e,d,n,xn);
 	cout <<"\nNhap ban ro : ";
 	cin >> M;
 	mahoa(e,M,n);
